@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    image: flask-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=password123
+    # depends_on:
+      # - redis
+
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - "6379:6379"
+  #   environment:
+  #     - REDIS_PASSWORD=password123
+  #   command: ["redis-server", "--requirepass", "password123"]
+
+networks:
+  default:
+    driver: overlay

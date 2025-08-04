@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and Options</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group input[type="file"],
+        .form-group input[type="text"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        .form-group input[type="submit"],
+        .form-group button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover,
+        .form-group button:hover {
+            background-color: #218838;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .buttons button {
+            flex-grow: 1;
+        }
+        .searchable-select {
+            position: relative;
+        }
+        .searchable-select input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+        .options-container {
+            position: absolute;
+            z-index: 1000;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 0 0 4px 4px;
+            display: none;
+        }
+        .options-container div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .options-container div:hover {
+            background-color: #f1f1f1;
+        }
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 5px;
+            min-height: 100px; /* Reduced size */
+            font-family: monospace;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            display: none;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body onload="loadState()">
+    <div class="container">
+        {% if message %}
+        <div class="message">
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+        <h1>Upload File</h1>
+        <form method="post" enctype="multipart/form-data" action="/" onsubmit="showLoader('file-upload-button')">
+            <div class="form-group">
+                <label for="file">File:</label>
+                <input type="file" name="file" id="file">
+            </div>
+            <div class="form-group">
+                <label for="send_to">send_to:</label>
+                <input type="text" name="send_to" id="send_to" placeholder="send to">
+            </div>
+            <div class="form-group">
+                <input type="submit" id="file-upload-button" value="Upload">
+                <div class="loader" id="file-loader"></div>
+            </div>
+        </form>
+
+        <h1>Upload Folder</h1>
+        <form method="post" enctype="multipart/form-data" action="/" onsubmit="showLoader('folder-upload-button')">
+            <div class="form-group">
+                <label for="folder">Folder:</label>
+                <input type="file" name="folder" multiple webkitdirectory directory id="folder">
+            </div>
+            <div class="form-group">
+                <label for="filename">Filename:</label>
+                <input type="text" name="filename" id="filename" placeholder="Filename">
+            </div>
+            <div class="form-group">
+                <label for="send_to-folder">send_to:</label>
+                <input type="text" name="send_to" id="send_to-folder" placeholder="send_to">
+            </div>
+            <div class="form-group">
+                <input type="submit" id="folder-upload-button" value="Upload">
+                <div class="loader" id="folder-loader"></div>
+            </div>
+        </form>
+
+        <h1>Download File (Select One)</h1>
+        <form method="POST" action="/download">
+            <div class="form-group searchable-select">
+                <label for="search">Options:</label>
+                <input type="text" id="search" placeholder="Search..." onkeyup="filterOptions()">
+                <div class="options-container" id="options-container">
+                    {% for option_key, option_value in options.items() %}
+                        <div data-value="{{ option_key }}" onclick="selectOption(this)">{{ option_value }}</div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="selected_option" id="selected_option">
+            </div>
+            <div class="form-group buttons">
+                <button type="submit">Download</button>
+                <button type="button" onclick="location.reload();">Refresh</button>
+            </div>
+        </form>
+
+        <h1>Save Text</h1>
+        <form method="POST" action="/save-text" onsubmit="showLoader('save-text-button')">
+            <div class="form-group">
+                <label for="text">Text:</label>
+                <textarea name="text" id="text" placeholder="Enter text"></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <input type="checkbox" name="save_as_file" id="save_as_file" onchange="toggleSendToField()">
+                <label for="save_as_file">Save as Text File</label>
+            </div>
+            <div class="form-group" id="send_to_field" style="display: none;">
+                <label for="send_to_save">Send To:</label>
+                <input type="text" name="send_to_save" id="send_to_save" placeholder="Enter recipient">
+            </div>
+            <div class="form-group buttons">
+                <input type="submit" id="save-text-button" value="Save">
+                <div class="loader" id="save-loader"></div>
+            </div>
+        </form>
+
+        <h1>Retrieved Text</h1>
+        <div id="retrieved-text">
+            {% if retrieved_text %}
+                <form method="POST" action="/download-text">
+                    <input type="hidden" name="retrieved_text" value="{{ retrieved_text }}">
+                    <button type="submit">Download as Text File</button>
+                </form>
+                <p>{{ retrieved_text }}</p>
+            {% else %}
+                <p>No text found in Redis.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('search').addEventListener('focus', function() {
+            document.getElementById('options-container').style.display = 'block';
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.searchable-select')) {
+                document.getElementById('options-container').style.display = 'none';
+            }
+        });
+
+        function filterOptions() {
+            const input = document.getElementById('search');
+            const filter = input.value.toLowerCase();
+            const optionsContainer = document.getElementById('options-container');
+            const options = optionsContainer.getElementsByTagName('div');
+
+            for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                const text = option.textContent || option.innerText;
+                if (text.toLowerCase().indexOf(filter) > -1) {
+                    option.style.display = '';
+                } else {
+                    option.style.display = 'none';
+                }
+            }
+        }
+
+        function selectOption(element) {
+            const value = element.getAttribute('data-value');
+            const text = element.textContent || element.innerText;
+            document.getElementById('search').value = text;
+            document.getElementById('selected_option').value = value;
+            document.getElementById('options-container').style.display = 'none';
+        }
+
+        function toggleSendToField() {
+            const checkbox = document.getElementById('save_as_file');
+            const sendToField = document.getElementById('send_to_field');
+            if (checkbox.checked) {
+                sendToField.style.display = 'block';
+                // Save the state in localStorage
+                localStorage.setItem('saveAsFileChecked', true);
+            } else {
+                sendToField.style.display = 'none';
+                localStorage.removeItem('saveAsFileChecked');
+            }
+        }
+
+        function loadState() {
+            const checkbox = document.getElementById('save_as_file');
+            // Check if the 'saveAsFileChecked' state is saved in localStorage
+            const saveAsFileChecked = localStorage.getItem('saveAsFileChecked');
+            if (saveAsFileChecked) {
+                document.getElementById('save_as_file').checked = true;
+                document.getElementById('send_to_field').style.display = 'block';
+            }
+        }
+
+        function showLoader(buttonId) {
+            const button = document.getElementById(buttonId);
+            const loader = button.nextElementSibling;
+            button.disabled = true;
+            loader.style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>
